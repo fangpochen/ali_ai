@@ -1,0 +1,77 @@
+2025-03-20 10:24:02,213 - key_verification - INFO - 运行模式: 开发环境
+2025-03-20 10:24:02,215 - key_verification - INFO - 当前工作目录: F:\py\ai_rename
+2025-03-20 10:24:04,759 - key_verification - INFO - 使用服务器地址: https://dashboard.cloudoption.site
+2025-03-20 10:24:04,759 - key_verification - INFO - 验证请求URL: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:24:04,760 - key_verification - INFO - 请求头: {'Content-Type': 'application/json', 'User-Agent': 'CR-Client/False'}
+2025-03-20 10:24:04,760 - key_verification - INFO - 请求数据: {'key': 'ChqVwiWUPypzaGbqs_9vq-qF6Ko6rlL5VGCSU9UjNRI', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 11', 'cpu': 'AMD Ryzen 9 9900X 12-Core Processor', 'mac': '00:ff:46:53:61:ae', 'item': 'ali_qwen'}}
+2025-03-20 10:24:05,251 - key_verification - INFO - 服务器响应状态码: 404
+2025-03-20 10:24:05,252 - key_verification - INFO - 服务器响应内容: <html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.27.4</center>
+</body>
+</html>
+
+2025-03-20 10:24:05,253 - key_verification - ERROR - 请求异常: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:24:05,253 - key_verification - ERROR - 密钥验证失败: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:27:16,765 - key_verification - INFO - 运行模式: 开发环境
+2025-03-20 10:27:16,765 - key_verification - INFO - 当前工作目录: F:\py\ai_rename
+2025-03-20 10:27:19,432 - key_verification - INFO - 使用服务器地址: https://dashboard.cloudoption.site
+2025-03-20 10:27:19,444 - key_verification - INFO - 验证请求URL: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:27:19,445 - key_verification - INFO - 请求头: {'Content-Type': 'application/json', 'User-Agent': 'CR-Client/False'}
+2025-03-20 10:27:19,446 - key_verification - INFO - 请求数据: {'key': 'ChqVwiWUPypzaGbqs_9vq-qF6Ko6rlL5VGCSU9UjNRI', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 11', 'cpu': 'AMD Ryzen 9 9900X 12-Core Processor', 'mac': '00:ff:46:53:61:ae', 'item': 'ali_qwen'}}
+2025-03-20 10:27:19,585 - key_verification - INFO - 服务器响应状态码: 404
+2025-03-20 10:27:19,613 - key_verification - INFO - 服务器响应内容: <html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.27.4</center>
+</body>
+</html>
+
+2025-03-20 10:27:19,614 - key_verification - ERROR - 请求异常: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:27:19,614 - key_verification - ERROR - 密钥验证失败: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:31:24,626 - key_verification - INFO - 运行模式: 开发环境
+2025-03-20 10:31:24,658 - key_verification - INFO - 当前工作目录: F:\py\ai_rename
+2025-03-20 10:31:30,585 - key_verification - INFO - 使用服务器地址: https://dashboard.cloudoption.site
+2025-03-20 10:31:30,607 - key_verification - INFO - 验证请求URL: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:31:30,617 - key_verification - INFO - 请求头: {'Content-Type': 'application/json', 'User-Agent': 'CR-Client/False'}
+2025-03-20 10:31:30,621 - key_verification - INFO - 请求数据: {'key': 'ChqVwiWUPypzaGbqs_9vq-qF6Ko6rlL5VGCSU9UjNRI', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 11', 'cpu': 'AMD Ryzen 9 9900X 12-Core Processor', 'mac': '00:ff:46:53:61:ae', 'item': 'ali_qwen'}}
+2025-03-20 10:31:30,821 - key_verification - INFO - 服务器响应状态码: 404
+2025-03-20 10:31:30,842 - key_verification - INFO - 服务器响应内容: <html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.27.4</center>
+</body>
+</html>
+
+2025-03-20 10:31:30,843 - key_verification - ERROR - 请求异常: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:31:30,843 - key_verification - ERROR - 密钥验证失败: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:42:27,453 - key_verification - INFO - 运行模式: 开发环境
+2025-03-20 10:42:27,489 - key_verification - INFO - 当前工作目录: F:\py\ai_rename
+2025-03-20 10:42:31,641 - key_verification - INFO - 使用服务器地址: https://dashboard.cloudoption.site
+2025-03-20 10:42:31,642 - key_verification - INFO - 验证请求URL: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:42:31,642 - key_verification - INFO - 请求头: {'Content-Type': 'application/json', 'User-Agent': 'CR-Client/False'}
+2025-03-20 10:42:31,642 - key_verification - INFO - 请求数据: {'key': 'ChqVwiWUPypzaGbqs_9vq-qF6Ko6rlL5VGCSU9UjNRI', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 11', 'cpu': 'AMD Ryzen 9 9900X 12-Core Processor', 'mac': '00:ff:46:53:61:ae', 'item': 'ali_qwen'}}
+2025-03-20 10:42:31,815 - key_verification - INFO - 服务器响应状态码: 404
+2025-03-20 10:42:31,817 - key_verification - INFO - 服务器响应内容: <html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.27.4</center>
+</body>
+</html>
+
+2025-03-20 10:42:31,818 - key_verification - ERROR - 请求异常: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:42:31,818 - key_verification - ERROR - 密钥验证失败: 404 Client Error: Not Found for url: https://dashboard.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:44:55,536 - key_verification - INFO - 运行模式: 开发环境
+2025-03-20 10:44:55,536 - key_verification - INFO - 当前工作目录: F:\py\ai_rename
+2025-03-20 10:44:57,829 - key_verification - INFO - 使用服务器地址: https://api.cloudoption.site
+2025-03-20 10:44:57,831 - key_verification - INFO - 验证请求URL: https://api.cloudoption.site/api/v1/api-keys/verify
+2025-03-20 10:44:57,831 - key_verification - INFO - 请求头: {'Content-Type': 'application/json', 'User-Agent': 'CR-Client/False'}
+2025-03-20 10:44:57,831 - key_verification - INFO - 请求数据: {'key': 'ChqVwiWUPypzaGbqs_9vq-qF6Ko6rlL5VGCSU9UjNRI', 'machine_info': {'hostname': '方应9900x', 'os': 'Windows 11', 'cpu': 'AMD Ryzen 9 9900X 12-Core Processor', 'mac': '00:ff:46:53:61:ae', 'item': 'ali_qwen'}}
+2025-03-20 10:44:57,936 - key_verification - INFO - 服务器响应状态码: 200
+2025-03-20 10:44:57,937 - key_verification - INFO - 服务器响应内容: {"valid":true}
+2025-03-20 10:44:57,937 - key_verification - INFO - 密钥验证结果: {'valid': True}
