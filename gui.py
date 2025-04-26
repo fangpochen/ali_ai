@@ -171,6 +171,7 @@ class BatchRenameGUI:
         self.remember_key_var = tk.BooleanVar(value=True)  # 记住API密钥变量
         self.model_var = tk.StringVar(value="qwen-plus")
         self.keyword_var = tk.StringVar() # 新增：关键字变量
+        self.include_subdirs_var = tk.BooleanVar(value=True)  # 新增：包含子目录选项
         
         # 加载保存的API密钥
         self.load_api_key()
@@ -263,6 +264,9 @@ class BatchRenameGUI:
         ttk.Label(input_frame, text="文件夹路径:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=5)
         ttk.Entry(input_frame, textvariable=self.folder_path_var, width=50).grid(row=0, column=1, sticky=tk.EW, padx=5, pady=5)
         ttk.Button(input_frame, text="浏览...", command=self.browse_folder).grid(row=0, column=2, padx=5, pady=5)
+        
+        # 新增：包含子目录选项
+        ttk.Checkbutton(input_frame, text="包含子目录", variable=self.include_subdirs_var).grid(row=0, column=3, padx=5, pady=5)
         
         # API密钥
         ttk.Label(input_frame, text="API密钥:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=5)
@@ -358,6 +362,7 @@ class BatchRenameGUI:
         
         # 获取关键字
         keyword = self.keyword_var.get().strip() # 新增：获取关键字
+        include_subdirs = self.include_subdirs_var.get()  # 获取是否包含子目录的选项
 
         # 更新UI状态
         self.is_processing = True
@@ -367,7 +372,7 @@ class BatchRenameGUI:
         self.progress.start()
         
         # 在新线程中执行处理，避免界面卡死
-        thread = threading.Thread(target=self.process_files, args=(folder_path, api_key, keyword)) # 修改：传递关键字
+        thread = threading.Thread(target=self.process_files, args=(folder_path, api_key, keyword, include_subdirs)) # 修改：传递include_subdirs参数
         thread.daemon = True
         thread.start()
     
@@ -382,7 +387,7 @@ class BatchRenameGUI:
         self.start_button.config(state=tk.NORMAL)
         self.progress.stop()
     
-    def process_files(self, folder_path, api_key, keyword): # 修改：接收关键字参数
+    def process_files(self, folder_path, api_key, keyword, include_subdirs=False): # 修改：接收include_subdirs参数
         """处理文件的线程函数"""
         try:
             batch_size = self.batch_size_var.get()
@@ -417,22 +422,44 @@ class BatchRenameGUI:
                 self.log(traceback.format_exc())
                 raise
             
-            # 获取文件夹中的所有文件
-            files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-            self.log(f"找到{len(files)}个文件")
+            # 获取文件列表（支持递归扫描子目录）
+            file_info_list = []
+            
+            if include_subdirs:
+                self.log("正在递归扫描所有子目录中的文件...")
+                for root, _, files in os.walk(folder_path):
+                    for file in files:
+                        full_path = os.path.join(root, file)
+                        rel_dir = os.path.relpath(root, folder_path)
+                        # 如果是根目录，rel_dir为"."，我们将其置为空字符串
+                        if rel_dir == ".":
+                            rel_dir = ""
+                        file_info_list.append((full_path, file, rel_dir))
+            else:
+                self.log("仅扫描当前目录中的文件...")
+                for file in os.listdir(folder_path):
+                    full_path = os.path.join(folder_path, file)
+                    if os.path.isfile(full_path):
+                        file_info_list.append((full_path, file, ""))
+            
+            self.log(f"找到{len(file_info_list)}个文件")
             
             # 设置进度条最大值
-            total_batches = (len(files) - 1) // batch_size + 1
+            total_batches = (len(file_info_list) - 1) // batch_size + 1
             self.root.after(0, lambda: self.progress.config(mode='determinate', maximum=total_batches))
             self.progress_var.set(0)
             
             # 批量处理文件
-            for i in range(0, len(files), batch_size):
+            for i in range(0, len(file_info_list), batch_size):
                 if not self.is_processing:
                     break
                     
-                batch_files = files[i:i+batch_size]
+                batch_file_info = file_info_list[i:i+batch_size]
                 batch_num = i // batch_size + 1
+                
+                # 提取当前批次的文件名（用于显示）
+                batch_files = [info[1] for info in batch_file_info]
+                
                 self.log(f"\n处理批次 {batch_num}/{total_batches}，共{len(batch_files)}个文件:")
                 
                 # 更新进度条
@@ -507,8 +534,10 @@ class BatchRenameGUI:
                         for idx, new_name in new_filenames:
                             if not self.is_processing:
                                 break
-                                
-                            old_name = batch_files[idx]
+                            
+                            # 获取完整信息
+                            old_path, old_name, rel_dir = batch_file_info[idx]
+                            
                             # 保留原扩展名
                             name_part, ext = os.path.splitext(old_name)
                             # 确保新文件名不为空且不包含非法字符 (简单检查)
@@ -532,9 +561,9 @@ class BatchRenameGUI:
                                 self.log(f"跳过重命名，新旧文件名相同: {old_name}")
                                 continue
 
-                            # 检查目标文件是否已存在
-                            old_path = os.path.join(folder_path, old_name)
-                            new_path = os.path.join(folder_path, final_new_name)
+                            # 确定目标文件路径
+                            parent_dir = os.path.dirname(old_path)
+                            new_path = os.path.join(parent_dir, final_new_name)
                             
                             # 处理潜在的文件名冲突
                             counter = 1
@@ -542,7 +571,7 @@ class BatchRenameGUI:
                             while os.path.exists(new_path):
                                 self.log(f"警告：目标文件 '{final_new_name}' 已存在。尝试添加后缀...")
                                 final_new_name = f"{base_name}_{counter}{file_ext}"
-                                new_path = os.path.join(folder_path, final_new_name)
+                                new_path = os.path.join(parent_dir, final_new_name)
                                 counter += 1
                                 if counter > 10: # 防止无限循环
                                     self.log(f"错误：无法为 '{old_name}' 找到不冲突的新文件名，跳过。")
@@ -552,15 +581,18 @@ class BatchRenameGUI:
                             if final_new_name is None:
                                 continue # 跳到下一个文件
 
-                            self.log(f"准备重命名: {old_name} -> {final_new_name}")
+                            # 显示包含相对路径的日志
+                            path_info = f"[{rel_dir}]" if rel_dir else ""
+                            self.log(f"准备重命名: {path_info}{old_name} -> {final_new_name}")
+                            
                             try:
                                 os.rename(old_path, new_path)
-                                self.log(f"已重命名: {old_name} -> {final_new_name}")
+                                self.log(f"已重命名: {path_info}{old_name} -> {final_new_name}")
                                 renamed_count += 1
                             except OSError as e: # 更具体的异常捕获
-                                self.log(f"重命名失败: {old_name} -> {final_new_name} - 错误: {e}")
+                                self.log(f"重命名失败: {path_info}{old_name} -> {final_new_name} - 错误: {e}")
                             except Exception as e:
-                                self.log(f"重命名时发生未知错误: {old_name} - {e}")
+                                self.log(f"重命名时发生未知错误: {path_info}{old_name} - {e}")
                                 self.log(traceback.format_exc()) # 记录完整堆栈
 
                         if renamed_count > 0:
@@ -573,18 +605,13 @@ class BatchRenameGUI:
                     elif not self.is_processing:
                         self.log("处理已停止，未执行重命名。")
                         
-                except requests.exceptions.RequestException as e: # 网络相关错误
-                    self.log(f"网络错误：无法连接到API服务 - {e}")
-                    self.status_var.set("错误：无法连接API")
-                    # 这里可以考虑停止后续处理或进行重试
-                    break # 停止处理后续批次
                 except Exception as e:
                     self.log(f"处理批次 {batch_num} 时出错: {str(e)}")
                     self.log(traceback.format_exc())  # 添加错误堆栈以便调试
                     # 考虑是否继续处理下一批
                 
                 # 避免API限流，添加延迟
-                if i + batch_size < len(files) and self.is_processing:
+                if i + batch_size < len(file_info_list) and self.is_processing:
                     delay = 2  # 2秒延迟
                     self.log(f"\n等待{delay}秒，避免API限流...")
                     time.sleep(delay)
